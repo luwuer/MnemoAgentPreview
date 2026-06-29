@@ -1,0 +1,66 @@
+# Mnemo 默认配置模板
+# 使用方法：复制为 mnemo.config.local.yaml 并填入你的 API Key
+#   cp config/mnemo.config.yaml config/mnemo.config.local.yaml
+
+# LLM 配置（OpenAI 兼容接口，支持 DeepSeek/通义/智谱）
+llm:
+  provider: openai-compatible
+  # DeepSeek: https://api.deepseek.com/v1
+  # 通义千问: https://dashscope.aliyuncs.com/compatible-mode/v1
+  # 智谱 GLM: https://open.bigmodel.cn/api/paas/v4
+  baseURL: https://api.deepseek.com/v1
+  apiKey: ${DEEPSEEK_API_KEY}
+  model: deepseek-chat
+  embeddingModel: text-embedding-v3
+  temperature: 0.7
+  maxTokens: 4096
+
+# Neo4j 记忆图数据库
+neo4j:
+  url: bolt://localhost:7687
+  username: neo4j
+  password: mnemo_dev_password
+  database: neo4j
+
+# MCP Servers（标准 MCP 协议，支持 stdio + SSE）
+mcpServers: []
+# 示例:
+# mcpServers:
+#   - name: filesystem
+#     enabled: true
+#     transport: stdio
+#     command: npx
+#     args: ["-y", "@modelcontextprotocol/server-filesystem", "/path/to/dir"]
+#   - name: remote-api
+#     enabled: true
+#     transport: sse
+#     url: https://example.com/mcp/sse
+
+# Skills 配置
+skills:
+  directory: ./skills
+  enabled: []  # 留空表示全部启用
+
+# Rules 配置
+rules:
+  globalRulesPath: ./config/rules
+  projectRules: ''
+
+# 记忆系统配置
+memory:
+  # 渐进式召回
+  recall:
+    maxDepth: 3          # BFS 最大深度
+    maxNodes: 30         # 最大召回节点数
+    anchorCount: 5       # 锚点数量
+    minScore: 0.1        # 最低评分阈值
+    hopDecay: 0.6        # 每跳衰减系数
+  # 记忆固化
+  consolidation:
+    triggerRounds: 10    # 对话轮数达到阈值后触发固化
+    autoConsolidate: true
+  # 衰减与强化
+  decay:
+    lambda: 0.0001       # 衰减常数（越小遗忘越慢）
+    decayThreshold: 0.2  # 降级阈值
+    baseDecay: 0.95      # 基础衰减值
