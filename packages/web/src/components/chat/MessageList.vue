@@ -41,7 +41,7 @@ const suggestions = [
         <Brain class="w-14 h-14 text-white" />
       </div>
       <h2 class="text-3xl font-semibold gradient-text mb-3">Mnemo</h2>
-      <p class="text-text-secondary mb-8">你的记忆助理，拥有人类般的记忆机制</p>
+      <p class="text-text-secondary mb-8">你的个人助理，拥有永久记忆</p>
       <div class="flex flex-wrap gap-3 justify-center max-w-lg">
         <button
           v-for="s in suggestions"
